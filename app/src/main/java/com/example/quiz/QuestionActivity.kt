@@ -150,6 +150,7 @@ class QuestionActivity : AppCompatActivity() {
                     .setMessage(message)
                     .setPositiveButton("OK"){
                             dialogInterface, i -> checkQuizCount()
+                        Log.d("TAG", "時間切れ")
                     }
                     .setCancelable(false)
                     .show()
@@ -171,15 +172,16 @@ class QuestionActivity : AppCompatActivity() {
 
     //解答ボタンが押されたら呼ばれる
     fun checkAnswer(view: View) {
-//        if (binding.progressBar.progress == 0) {
-//            return
-//        }
-
+        cancelTimer()
+        if (binding.progressBar.progress == 0) {
+            return
+        }
         val answerBtn: Button = findViewById(view.id)
         val btnText = answerBtn.text.toString()
 
         //ダイアログのタイトル作成
         val alertTitle: String
+        Log.d("TAG","正解不正解")
         if(btnText == rightAnswer){
             alertTitle = "正解！"
             rightAnswerCount++
@@ -197,11 +199,11 @@ class QuestionActivity : AppCompatActivity() {
             .setCancelable(false)
             .show()
         Log.d(TAG,"checkAnswer(解答)")
-        cancelTimer()
     }
 
     //出題数チェック
     fun checkQuizCount(){
+//        cancelTimer()
         if(quizCount == QUIZ_COUNT){
             //結果画面を表示
             val intent = Intent(this, ResultActivity::class.java)
